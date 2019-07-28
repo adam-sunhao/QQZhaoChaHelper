@@ -1,0 +1,50 @@
+
+
+本地创建一个普通项目，并初始化
+git init
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. 生成.gitignore文件
+    git bash -> touch .gitignore
+
+2. 添加需要忽略的文件
+    支持通配符，也可以直接忽略文件夹
+    e.g: .idea
+        *.iml
+        /target/
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+将项目提交到github
+在github上创建一个新的仓库，生成README.md文件
+
+提交本地项目到github
+
+git remote add origin https://github.com/adam-sunhao/QQZhaoChaHelper
+
+从远程分支拉取master分支并与本地master分支合并。
+git pull origin master:master
+
+提交本地分支到远程分支
+git push -u origin master
+
+提交项目到github
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+在使用IDEA中的git->push进行提交时，提示push failed
+The requested URL returned error: 403
+
+尝试:
+git push -u origin master 失败
+
+解决:
+windows -> 控制面板 -> 用户账户 -> 凭据管理器
+删除之前旧的github的凭据
+再次push,会出现提示登录github的窗口，输入正确账号、密码
+push success
+
+ps:刚换了一个github账号，之前的不再使用了
+之前哪个账号出现403是因为github账号需要验证邮箱，邮箱验证通过后就可以提交了
