@@ -28,6 +28,10 @@ public class PictureUtil {
     //public static final int SECONDIMAGE_Y_OFFSET = 312;
     //一般来说图片是对齐的
     public static final int Y_OFFSET = 312;
+    //判断两个像素点是否相同的阈值
+    public static final int R_THRESHOLD = 16;
+    public static final int G_THRESHOLD = 15;
+    public static final int B_THRESHOLD = 20;
 
     /**
      * 获取屏幕指定位置截图字节数组
@@ -79,11 +83,10 @@ public class PictureUtil {
 					其中0~127对应0~127
 					-128~-1 对应128~255
 				 */
-                //if (r1 + g1 + b1 != r2 + g2 + b2) {
-                if(Math.abs(r1 - r2) > 16 && Math.abs(g1 - g2) > 16 && Math.abs(b1 - b2) > 16) {
+                if(Math.abs(r1 - r2) > R_THRESHOLD && Math.abs(g1 - g2) > G_THRESHOLD && Math.abs(b1 - b2) > B_THRESHOLD) {
                     newImage[x] = 0;
-                    newImage[y] = 0;
-                    newImage[z] = -1;
+                    newImage[y] = -1;//绿色
+                    newImage[z] = 0;//红色
                 }
                 //每间隔三位是一种颜色
                 x += 3;

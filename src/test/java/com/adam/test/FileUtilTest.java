@@ -16,8 +16,6 @@ import java.io.IOException;
 public class FileUtilTest {
 
     private String windowName = "大家来找茬";
-    private String filePath = "images/temp1.bmp";
-    private String filePath2 = "images/temp2.bmp";
 
     @Test
     public void testGetPictureByRectangle() {
@@ -30,6 +28,8 @@ public class FileUtilTest {
         try {
             Rectangle rect1 = new Rectangle((int)rectangle.getX() + PictureUtil.FIRSTIMAGE_X_OFFSET,(int)rectangle.getY() + PictureUtil.Y_OFFSET,PictureUtil.IMAGE_WIDTH,PictureUtil.IMAGE_HEIGHT);
             Rectangle rect2 = new Rectangle((int)rectangle.getX() + PictureUtil.SECONDIMAGE_X_OFFSET,(int)rectangle.getY() + PictureUtil.Y_OFFSET,PictureUtil.IMAGE_WIDTH,PictureUtil.IMAGE_HEIGHT);
+            String filePath = "images/" + start + "_1.bmp";
+            String filePath2 = "images/" + start + "_2.bmp";
             //FileUtil.writeToFile(filePath, PictureUtil.getDiff(PictureUtil.getScreenShot(rect1),PictureUtil.getScreenShot(rect2)));
             FileUtil.writeToFile(filePath, PictureUtil.getScreenShot(rect1));
             FileUtil.writeToFile(filePath2, PictureUtil.getScreenShot(rect2));
@@ -44,10 +44,14 @@ public class FileUtilTest {
 
     @Test
     public void testGetDiff() {
+        long id = 1564318567979L;
+        String filePath = "images/" + id + "_1.bmp";
+        String filePath2 = "images/" + id + "_2.bmp";
+
         long start = System.currentTimeMillis();
         try {
             byte[] diffBytes = PictureUtil.getDiff(FileUtil.fileToByteArray(filePath),FileUtil.fileToByteArray(filePath2));
-            FileUtil.writeToFile("images/temp.bmp" , diffBytes);
+            FileUtil.writeToFile("images/" + id + "_different.bmp" , diffBytes);
         } catch (IOException e) {
             e.printStackTrace();
             Assert.assertTrue(false);
