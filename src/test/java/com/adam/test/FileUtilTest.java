@@ -60,4 +60,17 @@ public class FileUtilTest {
         System.out.println("共计用时：" + (end - start) + "ms");
         Assert.assertTrue(true);
     }
+
+    @Test
+    public void testGetJpgImage() throws IOException, AWTException {
+
+        WinDef.HWND hwnd = WindowUtil.getHwndByWindowName("TNT");
+        Rectangle rectangle = WindowUtil.getRectangleByHWND(hwnd);
+        if(rectangle == null) {
+            return;
+        }
+        String filePath = "images/test.png";
+        FileUtil.writeToFile(filePath, PictureUtil.getScreenShot(rectangle,"jpg"));
+
+    }
 }

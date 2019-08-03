@@ -34,7 +34,7 @@ public class PictureUtil {
     public static final int B_THRESHOLD = 20;
 
     /**
-     * 获取屏幕指定位置截图字节数组
+     * 获取屏幕指定位置截图字节数组，默认返回bmp格式
      *
      * @param rectangle
      * @return 图片的字节数组
@@ -42,12 +42,20 @@ public class PictureUtil {
      * @throws IOException
      */
     public static byte[] getScreenShot(Rectangle rectangle) throws AWTException, IOException {
+        return getScreenShot(rectangle,IMAGE_TYPE_BMP);
+    }
+
+    public static byte[] getScreenShot(Rectangle rectangle, String imageType) throws AWTException, IOException {
         if(rectangle == null) {
             throw new NullPointerException("rectangle is null!");
         }
         BufferedImage bufferedImage = new Robot().createScreenCapture(rectangle);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, IMAGE_TYPE_BMP, stream);
+        if("jpg".equals(imageType) || "png".equals(imageType)) {
+            ImageIO.write(bufferedImage,imageType,stream);
+        } else {
+            ImageIO.write(bufferedImage, IMAGE_TYPE_BMP, stream);
+        }
         return stream.toByteArray();
     }
 

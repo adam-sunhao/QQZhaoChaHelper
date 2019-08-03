@@ -2,6 +2,7 @@ package com.adam.util;
 
 import com.adam.exception.FileArrayIsEmptyException;
 
+import javax.imageio.ImageIO;
 import java.io.*;
 
 /**
