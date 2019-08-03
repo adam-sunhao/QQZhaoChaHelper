@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -44,7 +45,7 @@ public class FileUtilTest {
 
     @Test
     public void testGetDiff() {
-        long id = 1564318567979L;
+        long id = 1564323456703L;
         String filePath = "images/" + id + "_1.bmp";
         String filePath2 = "images/" + id + "_2.bmp";
 
@@ -59,5 +60,24 @@ public class FileUtilTest {
         long end = System.currentTimeMillis();
         System.out.println("共计用时：" + (end - start) + "ms");
         Assert.assertTrue(true);
+    }
+
+    @Test
+    public void testGetJpgImage() throws IOException, AWTException {
+
+        WinDef.HWND hwnd = WindowUtil.getHwndByWindowName("TNT");
+        Rectangle rectangle = WindowUtil.getRectangleByHWND(hwnd);
+        if(rectangle == null) {
+            return;
+        }
+        String filePath = "images/test.png";
+        FileUtil.writeToFile(filePath, PictureUtil.getScreenShot(rectangle,"jpg"));
+
+    }
+
+    @Test
+    public void testFileToByteArray() throws IOException {
+        String filepath = "images/test.png";
+        System.out.println(FileUtil.fileToByteArray(filepath).length);
     }
 }

@@ -69,6 +69,7 @@ public class WindowUtil {
         User32.INSTANCE.GetWindowRect(hwnd, rect);
         //判断此时窗口是否在后台(最小化)
         if(rect.top < 0 && rect.bottom < 0 && rect.left < 0 && rect.right < 0) {
+            System.out.println("WindowUtil -> getRectangleByHWND() 返回空!");
             return null;
         }
         return rect.toRectangle();

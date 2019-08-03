@@ -1,8 +1,13 @@
 package com.adam.util;
 
 import com.adam.exception.FileArrayIsEmptyException;
+import com.adam.exception.ImageTypeWrongException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Adam on 2019/7/28 16:37.
@@ -27,6 +32,17 @@ public class FileUtil {
         try(BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path));) {
             bos.write(fileArray);
         }
+    }
+
+    public static void writeToFile(BufferedImage bufferedImage, String path, String imageType) throws IOException {
+        if(path == null || "".equals(path)) {
+            throw new NullPointerException("文件路径为空!");
+        }
+        if(bufferedImage == null) {
+            throw new NullPointerException("BufferedImage 为空!");
+        }
+        PictureUtil.isRightImageFormat(imageType);
+        ImageIO.write(bufferedImage,imageType,new File(path));
     }
 
     /**
