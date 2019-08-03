@@ -44,7 +44,7 @@ public class FileUtilTest {
 
     @Test
     public void testGetDiff() {
-        long id = 1564318567979L;
+        long id = 1564323456703L;
         String filePath = "images/" + id + "_1.bmp";
         String filePath2 = "images/" + id + "_2.bmp";
 
