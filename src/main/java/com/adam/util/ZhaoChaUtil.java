@@ -14,45 +14,61 @@ import java.io.IOException;
  */
 public class ZhaoChaUtil {
 
-    public static boolean showDiffImage(String windowName, boolean gifImage) {
+    public static boolean showDiffImage(String windowName) {
         WinDef.HWND hwnd = WindowUtil.getHwndByWindowName(windowName);
+        return showDiffImage(hwnd, null, null, true);
+    }
+
+    /**
+     * 通过文件类型，文件名保存图片,
+     * 默认保存在images/路径下
+     *
+     * @param hwnd 窗口句柄
+     * @param imageType 图片类型
+     * @param imageName 图片名称
+     * @param saveDiffImg 是否保存差异的图片
+     * @return 获取差异图片成功或失败
+     */
+    public static boolean showDiffImage(WinDef.HWND hwnd, String imageType, String imageName, boolean saveDiffImg) {
         Rectangle rectangle = WindowUtil.getRectangleByHWND(hwnd);
         if (rectangle == null) {
             return false;
         }
-
         try {
-            Rectangle rect1 = new Rectangle((int) rectangle.getX() + PictureUtil.FIRSTIMAGE_X_OFFSET, (int) rectangle.getY() + PictureUtil.Y_OFFSET, PictureUtil.IMAGE_WIDTH, PictureUtil.IMAGE_HEIGHT);
-            Rectangle rect2 = new Rectangle((int) rectangle.getX() + PictureUtil.SECONDIMAGE_X_OFFSET, (int) rectangle.getY() + PictureUtil.Y_OFFSET, PictureUtil.IMAGE_WIDTH, PictureUtil.IMAGE_HEIGHT);
-            if (!gifImage) {
-                String filePath = "images/temp.bmp";
-                FileUtil.writeToFile(filePath, PictureUtil.getDiff(PictureUtil.getScreenShot(rect1), PictureUtil.getScreenShot(rect2)));
-            } else {
-                long start = System.currentTimeMillis();
-                String filePath = "images/" + start + "_1.bmp";
-                String filePath2 = "images/" + start + "_2.bmp";
-                //FileUtil.writeToFile(filePath, PictureUtil.getDiff(PictureUtil.getScreenShot(rect1),PictureUtil.getScreenShot(rect2)));
-                FileUtil.writeToFile(filePath, PictureUtil.getScreenShot(rect1));
-                FileUtil.writeToFile(filePath2, PictureUtil.getScreenShot(rect2));
-                BufferedImage src1 = ImageIO.read(new File("images/" + start + "_1.bmp"));
-                BufferedImage src2 = ImageIO.read(new File("images/" + start + "_2.bmp"));
-                //BufferedImage src3 = ImageIO.read(new File("c:/ship3.jpg"));
-                AnimatedGifEncoder e = new AnimatedGifEncoder();
-                e.setRepeat(0);
-                e.start("images/temp.gif");
-                e.setDelay(300); // 1 frame per sec
-                e.addFrame(src1);
-                e.setDelay(100);
-                e.addFrame(src2);
-                e.setDelay(100);
-                //  e.addFrame(src2);
-                e.finish();
+            String filepath = "";
+            if(imageType == null) {
+                imageType = "jpg";
             }
-        } catch (IOException | AWTException e) {
+            if(imageName == null) {
+                imageName = System.currentTimeMillis() + "";
+            }
+            filepath = "images/" + imageName + "." + imageType;
+            /*Rectangle rect1 = new Rectangle((int) rectangle.getX() + PictureUtil.FIRSTIMAGE_X_OFFSET, (int) rectangle.getY() + PictureUtil.Y_OFFSET, PictureUtil.IMAGE_WIDTH, PictureUtil.IMAGE_HEIGHT);
+            Rectangle rect2 = new Rectangle((int) rectangle.getX() + PictureUtil.SECONDIMAGE_X_OFFSET, (int) rectangle.getY() + PictureUtil.Y_OFFSET, PictureUtil.IMAGE_WIDTH, PictureUtil.IMAGE_HEIGHT);*/
+            BufferedImage bufferedImage = getDiffImage(hwnd);
+            if(bufferedImage != null && saveDiffImg) {
+                FileUtil.writeToFile(bufferedImage,filepath,imageType);
+            }
+            return bufferedImage != null;
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
-        return true;
+    }
+
+    public static BufferedImage getDiffImage(WinDef.HWND hwnd) {
+        Rectangle rectangle = WindowUtil.getRectangleByHWND(hwnd);
+        if (rectangle == null) {
+            return null;
+        }
+        try {
+            Rectangle rect1 = new Rectangle((int) rectangle.getX() + PictureUtil.FIRSTIMAGE_X_OFFSET, (int) rectangle.getY() + PictureUtil.Y_OFFSET, PictureUtil.IMAGE_WIDTH, PictureUtil.IMAGE_HEIGHT);
+            Rectangle rect2 = new Rectangle((int) rectangle.getX() + PictureUtil.SECONDIMAGE_X_OFFSET, (int) rectangle.getY() + PictureUtil.Y_OFFSET, PictureUtil.IMAGE_WIDTH, PictureUtil.IMAGE_HEIGHT);
+            return PictureUtil.getDiff(PictureUtil.getBufferedImage(rect1),PictureUtil.getBufferedImage(rect2));
+        } catch (AWTException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

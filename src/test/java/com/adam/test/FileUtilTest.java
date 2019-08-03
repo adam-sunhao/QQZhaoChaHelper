@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -72,5 +73,11 @@ public class FileUtilTest {
         String filePath = "images/test.png";
         FileUtil.writeToFile(filePath, PictureUtil.getScreenShot(rectangle,"jpg"));
 
+    }
+
+    @Test
+    public void testFileToByteArray() throws IOException {
+        String filepath = "images/test.png";
+        System.out.println(FileUtil.fileToByteArray(filepath).length);
     }
 }
