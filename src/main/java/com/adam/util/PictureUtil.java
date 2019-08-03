@@ -15,7 +15,7 @@ import java.io.IOException;
 public class PictureUtil {
 
     //图片类型
-    public static final String IMAGE_TYPE = "BMP";
+    public static final String IMAGE_TYPE_BMP = "BMP";
     //需要找不同的图片的宽度 px
     public static final int IMAGE_WIDTH = 381;
     //需要找不同的图片的高度 px
@@ -47,7 +47,7 @@ public class PictureUtil {
         }
         BufferedImage bufferedImage = new Robot().createScreenCapture(rectangle);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, IMAGE_TYPE, stream);
+        ImageIO.write(bufferedImage, IMAGE_TYPE_BMP, stream);
         return stream.toByteArray();
     }
 
