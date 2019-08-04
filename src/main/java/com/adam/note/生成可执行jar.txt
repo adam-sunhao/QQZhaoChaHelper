@@ -1,0 +1,27 @@
+
+File
+    Project Structure
+        Artifacts
+
+点击加号(+)
+    Jar
+        From modules with dependencies
+
+    Main Class
+    选择主类
+
+    JAR files from libraries
+    选择extract to the targer JAR，这样可以将外部依赖Jar包放入一个jar文件内
+
+    Directory for META-INF/MANIFEST.MF
+    选择项目的根目录，也可以不选，或许会有问题
+
+-------------------------------------------------------------------
+Build
+    Build Artifacts
+        xx -> Build
+
+
+运行
+    java -jar xxx.jar
+    这样可以看到运行输出内容
