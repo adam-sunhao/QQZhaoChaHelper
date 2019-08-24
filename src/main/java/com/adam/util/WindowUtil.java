@@ -17,11 +17,12 @@ public class WindowUtil {
      * Handle to a window.
      * 获取指定标题的窗口句柄，如果有多个相同名字的窗口，
      * 只会返回状态栏从左往右第一个符合条件的窗口
+     *
      * @param windowName 窗口标题
      * @return
      */
     public static WinDef.HWND getHwndByWindowName(String windowName) {
-        if(windowName == null) {
+        if (windowName == null) {
             throw new NullPointerException("Window's Name is null!");
         }
         return User32.INSTANCE.FindWindow(null, windowName);
@@ -29,6 +30,7 @@ public class WindowUtil {
 
     /**
      * 将窗口置顶
+     *
      * @param hwnd 窗口句柄
      * @return
      */
@@ -47,15 +49,11 @@ public class WindowUtil {
     }
 
     /**
-     *
      * @param hwnd 窗口句柄
-     * @return
-     *         窗口相关位置信息
-     * @throws NullPointerException
-     *          如果句柄为空，抛出空指针异常
-     *
+     * @return 窗口相关位置信息
+     * @throws NullPointerException 如果句柄为空，抛出空指针异常
      */
-    public static Rectangle getRectangleByHWND(WinDef.HWND hwnd) throws NullPointerException{
+    public static Rectangle getRectangleByHWND(WinDef.HWND hwnd) throws NullPointerException {
         if (hwnd == null) {
             throw new NullPointerException("HWND is null!");
         }
@@ -68,7 +66,7 @@ public class WindowUtil {
         WinDef.RECT rect = new WinDef.RECT();
         User32.INSTANCE.GetWindowRect(hwnd, rect);
         //判断此时窗口是否在后台(最小化)
-        if(rect.top < 0 && rect.bottom < 0 && rect.left < 0 && rect.right < 0) {
+        if (rect.top < 0 && rect.bottom < 0 && rect.left < 0 && rect.right < 0) {
             System.out.println("WindowUtil -> getRectangleByHWND() 返回空!");
             return null;
         }
@@ -81,42 +79,27 @@ public class WindowUtil {
      * upper-left corner of the screen. For a child window, they are relative to
      * the upper-left corner of the parent window's client area.
      *
-     * @param hWnd
-     *            A handle to the window.
-     *
-     * @param X
-     *            The new position of the left side of the window.
-     *
-     * @param Y
-     *            The new position of the top of the window.
-     *
-     * @param nWidth
-     *            The new width of the window.
-     *
-     * @param nHeight
-     *            The new height of the window.
-     *
+     * @param hWnd     A handle to the window.
+     * @param X        The new position of the left side of the window.
+     * @param Y        The new position of the top of the window.
+     * @param nWidth   The new width of the window.
+     * @param nHeight  The new height of the window.
      * @param bRepaint
-     *
      * @return
      */
     public static boolean changeWindowSizeAndPosition(WinDef.HWND hWnd, int X, int Y, int nWidth, int nHeight,
-                                     boolean bRepaint) {
+                                                      boolean bRepaint) {
         return User32.INSTANCE.MoveWindow(hWnd, X, Y, nWidth, nHeight, bRepaint);
     }
 
     /**
      * 重绘窗口位置，使用默认的宽和高
-     * @param hWnd
-     *          窗口句柄
-     * @param X
-     *          窗口距离左侧位置
-     * @param Y
-     *          窗口距离顶端的位置
-     * @param bRepaint
-     *          是否重绘
-     * @return
-     *          移动窗口成功或失败
+     *
+     * @param hWnd     窗口句柄
+     * @param X        窗口距离左侧位置
+     * @param Y        窗口距离顶端的位置
+     * @param bRepaint 是否重绘
+     * @return 移动窗口成功或失败
      */
     public static boolean changeWindowSizeAndPosition(WinDef.HWND hWnd, int X, int Y, boolean bRepaint) {
         return changeWindowSizeAndPosition(hWnd, X, Y, WINDOW_WIDTH, WINDOW_HEIGHT, bRepaint);
@@ -125,6 +108,7 @@ public class WindowUtil {
     /**
      * 获取电脑屏幕大小
      * e.g: 1024 * 768
+     *
      * @return
      */
     public static Dimension getScreenSize() {
