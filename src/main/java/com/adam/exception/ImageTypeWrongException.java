@@ -3,7 +3,7 @@ package com.adam.exception;
 /**
  * Created by Adam on 2019/8/3 18:57.
  */
-public class ImageTypeWrongException extends RuntimeException{
+public class ImageTypeWrongException extends BaseException {
 
     public ImageTypeWrongException() {
         super();
