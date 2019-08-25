@@ -36,14 +36,19 @@ public class DjlzcFrame extends JFrame {
         jButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (config.isSave()) {
-                    String imageName = ZhaoChaUtil.showDiffImage(config);
-                    imagePanel.setImageName(imageName);
-                } else {
-                    Image image = ZhaoChaUtil.getDiffImage(config);
-                    imagePanel.setImage(image);
-                }
-                imagePanel.repaint();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        if (config.isSave()) {
+                            String imageName = ZhaoChaUtil.showDiffImage(config);
+                            imagePanel.setImageName(imageName);
+                        } else {
+                            Image image = ZhaoChaUtil.getDiffImage(config);
+                            imagePanel.setImage(image);
+                        }
+                        imagePanel.repaint();
+                    }
+                }.start();
             }
         });
         panel.add(jButton, BorderLayout.NORTH);

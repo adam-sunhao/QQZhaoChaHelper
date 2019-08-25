@@ -108,9 +108,10 @@ public class DjlzcConfig implements IConfig {
 
     @Override
     public WinDef.HWND getHwnd() {
-        if (hwnd == null) {
+        /*if (hwnd == null) {
             hwnd = WindowUtil.getHwndByWindowName(this.windowName);
         }
-        return hwnd;
+        return hwnd;*/
+        return WindowUtil.getHwndByWindowName(this.windowName);
     }
 }

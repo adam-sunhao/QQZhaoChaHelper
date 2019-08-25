@@ -13,12 +13,14 @@ import java.util.List;
  */
 public class PictureUtil {
 
+    //每2^SQUARE * 2^SQUARE 像素作为一个点
+    public static final int SQUARE = 2;
+
     public static BufferedImage getBufferedImage(Rectangle rectangle) throws AWTException {
         return new Robot().createScreenCapture(rectangle);
     }
 
     /**
-     *
      * @param rectangle 窗口所在的Rectangle
      * @param config
      * @return
@@ -39,8 +41,16 @@ public class PictureUtil {
         int y = image1.getMinY();
         int width = image1.getWidth();
         int height = image1.getHeight();
+
+        byte[][] flags = new byte[(width >> SQUARE) + 1][(height >> SQUARE) + 1];
+        //int offset = (int)Math.pow(2,SQUARE);
         for (int i = x; i < width; i++) {
             for (int j = y; j < height; j++) {
+                int iFlag = i >> SQUARE;
+                int jFlag = j >> SQUARE;
+                if (flags[iFlag][jFlag] == 1) {
+                    continue;
+                }
                 int rgb1 = image1.getRGB(i, j);
                 int rgb2 = image2.getRGB(i, j);
                 int r1 = (rgb1 >> 16) & 0xFF;
@@ -50,6 +60,14 @@ public class PictureUtil {
                 int g2 = (rgb2 >> 8) & 0xFF;
                 int b2 = (rgb2 >> 0) & 0xFF;
                 if (Math.abs(r1 - r2) > config.getRThreshold() && Math.abs(g1 - g2) > config.getGThreshold() && Math.abs(b1 - b2) > config.getBThreshold()) {
+                    flags[iFlag][jFlag] = 1;
+                }
+            }
+        }
+
+        for (int i = x; i < width; i++) {
+            for (int j = y; j < height; j++) {
+                if (flags[i >> SQUARE][j >> SQUARE] == 1) {
                     image1.setRGB(i, j, ((255 & 0xFF) << 24) |
                             ((0 & 0xFF) << 16) |
                             ((255 & 0xFF) << 8) |
