@@ -14,12 +14,12 @@ public class AnimatedGifEncoder {
     protected Color transparent = null; // transparent color if given
     protected int transIndex; // transparent index in color table
     protected int repeat = -1; // no repeat
-    protected int delay = 0; // frame delay (hundredths)
+    protected int delay = 0; // ui delay (hundredths)
     protected boolean started = false; // ready to output frames
     protected OutputStream out;
-    protected BufferedImage image; // current frame
-    protected byte[] pixels; // BGR byte array from frame
-    protected byte[] indexedPixels; // converted frame indexed to palette
+    protected BufferedImage image; // current ui
+    protected byte[] pixels; // BGR byte array from ui
+    protected byte[] indexedPixels; // converted ui indexed to palette
     protected int colorDepth; // number of bit planes
     protected byte[] colorTab; // RGB palette
     protected boolean[] usedEntry = new boolean[256]; // active palette entries
@@ -27,12 +27,12 @@ public class AnimatedGifEncoder {
     protected int dispose = -1; // disposal code (-1 = use default)
     protected boolean closeStream = false; // close stream when finished
     protected boolean firstFrame = true;
-    protected boolean sizeSet = false; // if false, get size from first frame
+    protected boolean sizeSet = false; // if false, get size from first ui
     protected int sample = 10; // default sample interval for quantizer
 
     /**
-     * Sets the delay time between each frame, or changes it
-     * for subsequent frames (applies to last frame added).
+     * Sets the delay time between each ui, or changes it
+     * for subsequent frames (applies to last ui added).
      *
      * @param ms int delay time in milliseconds
      */
@@ -41,7 +41,7 @@ public class AnimatedGifEncoder {
     }
 
     /**
-     * Sets the GIF frame disposal code for the last added frame
+     * Sets the GIF ui disposal code for the last added ui
      * and any subsequent frames.  Default is 0 if no transparent
      * color has been set, otherwise 2.
      *
@@ -69,12 +69,12 @@ public class AnimatedGifEncoder {
     }
 
     /**
-     * Sets the transparent color for the last added frame
+     * Sets the transparent color for the last added ui
      * and any subsequent frames.
      * Since all colors are subject to modification
      * in the quantization process, the color in the final
-     * palette for each frame closest to the given color
-     * becomes the transparent color for that frame.
+     * palette for each ui closest to the given color
+     * becomes the transparent color for that ui.
      * May be set to null to indicate no transparent color.
      *
      * @param c Color to be treated as transparent on display.
@@ -84,13 +84,13 @@ public class AnimatedGifEncoder {
     }
 
     /**
-     * Adds next GIF frame.  The frame is not written immediately, but is
-     * actually deferred until the next frame is received so that timing
+     * Adds next GIF ui.  The ui is not written immediately, but is
+     * actually deferred until the next ui is received so that timing
      * data can be inserted.  Invoking <code>finish()</code> flushes all
      * frames.  If <code>setSize</code> was not invoked, the size of the
      * first image is used for all subsequent frames.
      *
-     * @param im BufferedImage containing frame to write.
+     * @param im BufferedImage containing ui to write.
      * @return true if successful.
      */
     public boolean addFrame(BufferedImage im) {
@@ -100,7 +100,7 @@ public class AnimatedGifEncoder {
         boolean ok = true;
         try {
             if (!sizeSet) {
-                // use first frame's size
+                // use first ui's size
                 setSize(im.getWidth(), im.getHeight());
             }
             image = im;
@@ -158,10 +158,10 @@ public class AnimatedGifEncoder {
     }
 
     /**
-     * Sets frame rate in frames per second.  Equivalent to
+     * Sets ui rate in frames per second.  Equivalent to
      * <code>setDelay(1000/fps)</code>.
      *
-     * @param fps float frame rate (frames per second)
+     * @param fps float ui rate (frames per second)
      */
     public void setFrameRate(float fps) {
         if (fps != 0f) {
@@ -186,12 +186,12 @@ public class AnimatedGifEncoder {
     }
 
     /**
-     * Sets the GIF frame size.  The default size is the
-     * size of the first frame added if this method is
+     * Sets the GIF ui size.  The default size is the
+     * size of the first ui added if this method is
      * not invoked.
      *
-     * @param w int frame width.
-     * @param h int frame width.
+     * @param w int ui width.
+     * @param h int ui width.
      */
     public void setSize(int w, int h) {
         if (started && !firstFrame) return;
@@ -362,7 +362,7 @@ public class AnimatedGifEncoder {
         writeShort(height);
         // packed fields
         if (firstFrame) {
-            // no LCT  - GCT is used for first (or only) frame
+            // no LCT  - GCT is used for first (or only) ui
             out.write(0);
         } else {
             // specify normal LCT

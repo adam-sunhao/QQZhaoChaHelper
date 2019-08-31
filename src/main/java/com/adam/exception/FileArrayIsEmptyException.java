@@ -3,7 +3,7 @@ package com.adam.exception;
 /**
  * Created by Adam on 2019/7/28 17:25.
  */
-public class FileArrayIsEmptyException extends RuntimeException {
+public class FileArrayIsEmptyException extends BaseException {
 
     public FileArrayIsEmptyException() {
         super();
