@@ -19,7 +19,9 @@ public class ImagePanel extends JPanel {
     }
 
     public void setConfig(IConfig config) {
-        this.config = config;
+        if(this.config == null) {
+            this.config = config;
+        }
     }
 
     public void setImageName(String imageName) {

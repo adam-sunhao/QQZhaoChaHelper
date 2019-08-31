@@ -2,13 +2,12 @@ package com.adam.ui.frame;
 
 import com.adam.config.DjlzcConfig;
 import com.adam.config.IConfig;
+import com.adam.ui.listener.ImagePanelClickListener;
+import com.adam.ui.listener.ZhaoChaButtonListener;
 import com.adam.ui.panel.ImagePanel;
-import com.adam.util.ZhaoChaUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Created by Adam on 2019/8/24 19:11.
@@ -33,24 +32,8 @@ public class DjlzcFrame extends JFrame {
         IConfig config = new DjlzcConfig();
         imagePanel.setConfig(config);
 
-        jButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        if (config.isSave()) {
-                            String imageName = ZhaoChaUtil.showDiffImage(config);
-                            imagePanel.setImageName(imageName);
-                        } else {
-                            Image image = ZhaoChaUtil.getDiffImage(config);
-                            imagePanel.setImage(image);
-                        }
-                        imagePanel.repaint();
-                    }
-                }.start();
-            }
-        });
+        jButton.addActionListener(new ZhaoChaButtonListener(config, imagePanel));
+        imagePanel.addMouseListener(new ImagePanelClickListener(config));
         panel.add(jButton, BorderLayout.NORTH);
         panel.add(imagePanel, BorderLayout.CENTER);
 
